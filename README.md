@@ -8,8 +8,8 @@ it as a placeable rocket component.
 
 It adds:
 
-- A configurable drag brake: deploy trigger (burnout or apogee), delay,
-  deploy/slew duration, exposed area, and drag coefficient.
+- A configurable drag brake: deploy trigger (launch, burnout, or apogee),
+  delay, deploy/slew duration, exposed area, and drag coefficient.
 - An **enabled** checkbox so the same simulation can be re-run with and
   without the brake.
 - A **Compare with / without airbrake…** button that runs the no-brake
@@ -86,7 +86,7 @@ opening it again. Once it's open, the extension is installed — see
    extension**, find **Airbrake** under the **Aerodynamics** category, and
    add it.
 3. Configure:
-   - **Deploy trigger** — burnout or apogee.
+   - **Deploy trigger** — launch, burnout, or apogee.
    - **Deploy delay after trigger** — seconds to wait before starting to
      extend.
    - **Deploy/slew duration (0→100%)** — how fast the actuator can move,
