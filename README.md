@@ -23,8 +23,8 @@ It adds:
   open-loop deploy ramp, the brake predicts (every simulation step) the
   apogee reachable at 0% and 100% deployment from the current
   altitude/velocity/mass/air density, and modulates deployment between
-  those bounds — slew-rate-limited by the actuator's deploy duration — to
-  steer toward a target altitude. On a rocket with a perfect airbrake control system, this is what a flight would look like
+  those bounds slew-rate-limited by the actuator's deploy duration to
+  steer toward a target altitude. On a rocket with a perfect airbrake control system on your airbrakes parameters, this is what a flight would look like.
 
 ## Limitations
 
