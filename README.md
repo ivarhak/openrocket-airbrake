@@ -51,7 +51,7 @@ Either download a prebuilt jar from this repo's
 [Releases](../../releases) page, or build it yourself:
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/ivarhak/openrocket-airbrake
 cd openrocket-airbrake
 ./gradlew jar
 ```
