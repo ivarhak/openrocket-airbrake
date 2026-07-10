@@ -118,3 +118,6 @@ OpenRocket itself is licensed under the GPLv3 — see the
 license. This repository does not bundle or redistribute any OpenRocket
 code; it only compiles against and runs inside a separately-installed copy
 of OpenRocket via its public plugin API.
+
+IvarHak 2026 
+With help from Claude Code
