@@ -72,10 +72,12 @@ exist yet and drop the jar in:
 | Windows | `%APPDATA%\OpenRocket\Plugins\`                     |
 | Linux   | `~/.openrocket/Plugins/`                            |
 
-### 3. Restart OpenRocket
+### 3. Open OpenRocket
 
-**Fully quit and reopen** OpenRocket (not just close the window) — plugins
-are only discovered at startup.
+Plugins are only discovered at startup, so if OpenRocket is already
+running, **fully quit it first** (not just close the window) before
+opening it again. Once it's open, the extension is installed — see
+[Usage](#usage) below to add it to a simulation.
 
 ## Usage
 
