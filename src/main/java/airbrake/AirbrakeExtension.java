@@ -36,7 +36,7 @@ public class AirbrakeExtension extends AbstractSimulationExtension {
 	private static final double GRAVITY = 9.80665;
 
 	public enum TriggerEvent {
-		BURNOUT, APOGEE
+		LAUNCH, BURNOUT, APOGEE
 	}
 
 	@Override
@@ -165,8 +165,10 @@ public class AirbrakeExtension extends AbstractSimulationExtension {
 		@Override
 		public boolean handleFlightEvent(SimulationStatus status, FlightEvent event) throws SimulationException {
 			if (triggerTime == null) {
-				boolean isTrigger = (getTriggerEvent() == TriggerEvent.BURNOUT
-						&& event.getType() == FlightEvent.Type.BURNOUT)
+				boolean isTrigger = (getTriggerEvent() == TriggerEvent.LAUNCH
+						&& event.getType() == FlightEvent.Type.LAUNCH)
+						|| (getTriggerEvent() == TriggerEvent.BURNOUT
+								&& event.getType() == FlightEvent.Type.BURNOUT)
 						|| (getTriggerEvent() == TriggerEvent.APOGEE
 								&& event.getType() == FlightEvent.Type.APOGEE);
 				if (isTrigger) {

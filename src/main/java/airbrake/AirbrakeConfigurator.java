@@ -92,7 +92,9 @@ public class AirbrakeConfigurator extends AbstractSwingSimulationExtensionConfig
 				+ "flat to the airflow - other shapes (curved, cupped, etc.) are untested and may not fit "
 				+ "the same drag coefficient assumptions. The comparison graph only shows achievable apogee, "
 				+ "not full mission timing - simulate the full launch separately to determine flight duration "
-				+ "and event timing.</i></html>");
+				+ "and event timing. Triggering deployment at LAUNCH extends the brake during powered ascent, "
+				+ "which can shift CP and reduce stability margin - check stability carefully before flying "
+				+ "with this trigger.</i></html>");
 		note.setFont(note.getFont().deriveFont(note.getFont().getSize2D() - 1f));
 		panel.add(note, "span, wrap, w 500lp");
 

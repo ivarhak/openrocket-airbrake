@@ -31,6 +31,10 @@ It adds:
 - Modeled for **flat, disk-shaped airbrake paddles/plates** presented flat
   to the airflow. Other shapes (curved, cupped, etc.) are untested and may
   not fit the same drag-coefficient assumptions.
+- Deploy trigger can be set to **launch**, burnout, or apogee. Triggering
+  at launch extends the brake during powered ascent, which can shift the
+  center of pressure and reduce stability margin — check stability
+  carefully before flying with this trigger.
 - The comparison graph only shows achievable apogee — it does not model
   full mission timing (launch rod clearance, descent, ground hit). Run the
   full simulation separately (OpenRocket's own Plot/Export) to determine
