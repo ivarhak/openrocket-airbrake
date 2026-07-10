@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+ext {
+    openRocketVersion = '24.12'
+    openRocketJarName = "OpenRocket-${openRocketVersion}.jar"
+    openRocketJarUrl = "https://github.com/openrocket/openrocket/releases/download/release-${openRocketVersion}/${openRocketJarName}"
+}
+
+// OpenRocket isn't published to Maven Central, so there's nothing for
+// `dependencies {}` to resolve. Instead, fetch the official release jar
+// (core+swing bundled) into libs/ on first build. compileOnly further down
+// because at runtime OpenRocket's own classloader already provides these
+// classes - we must not bundle them into our plugin jar.
+tasks.register('downloadOpenRocketJar') {
+    def jarFile = file("libs/${openRocketJarName}")
+    outputs.file(jarFile)
+    onlyIf { !jarFile.exists() }
+    doLast {
+        jarFile.parentFile.mkdirs()
+        logger.lifecycle("Downloading ${openRocketJarUrl} ...")
+        ant.get(src: openRocketJarUrl, dest: jarFile, verbose: true)
+    }
+}
+
+compileJava.dependsOn downloadOpenRocketJar
+
+dependencies {
+    compileOnly files("libs/${openRocketJarName}")
+}
+
+jar {
+    archiveBaseName = 'airbrake-extension'
+    archiveVersion = '0.1.0'
+}
