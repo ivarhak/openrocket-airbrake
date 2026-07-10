@@ -1,3 +1,5 @@
+<img width="447" height="375" alt="Screenshot 2026-07-10 at 1 04 29 PM" src="https://github.com/user-attachments/assets/4d92c799-e995-4903-bb25-9f92a6f9dcb7" />
+
 # OpenRocket Airbrake Extension
 
 A [SimulationExtension](https://github.com/openrocket/openrocket) plugin for
@@ -82,10 +84,12 @@ opening it again. Once it's open, the extension is installed — see
 ## Usage
 
 1. Open a rocket, add a simulation, and open its **Edit simulation** dialog.
-2. Under the simulation's extensions/options section, click **Add
+   <img width="1024" height="731" alt="Screenshot 2026-07-10 at 1 04 11 PM" src="https://github.com/user-attachments/assets/aff2b2b2-3902-46ed-9241-9c449d27f696" />
+
+3. Under the simulation's extensions/options section, click **Add
    extension**, find **Airbrake** under the **Aerodynamics** category, and
    add it.
-3. Configure:
+4. Configure:
    - **Deploy trigger** — launch, burnout, or apogee.
    - **Deploy delay after trigger** — seconds to wait before starting to
      extend.
@@ -98,8 +102,12 @@ opening it again. Once it's open, the extension is installed — see
    - Optionally, **closed-loop target-apogee control** and a **target
      apogee** to have the brake actively steer toward a specific altitude
      instead of just ramping to 100%.
-4. Click **Compare with / without airbrake…** to see the achievable apogee
+     <img width="447" height="375" alt="Screenshot 2026-07-10 at 1 04 29 PM" src="https://github.com/user-attachments/assets/4bb65336-a41c-47d6-8fc6-a83b65123e72" />
+
+5. Click **Compare with / without airbrake…** to see the achievable apogee
    range and (if a target is set) whether it's reachable.
+   <img width="1297" height="651" alt="Screenshot 2026-07-10 at 1 04 52 PM" src="https://github.com/user-attachments/assets/cb4528f5-d20e-49d4-b33b-6509e37eccb3" />
+
 
 ## Why area *and* Cd, not just one added CD?
 
