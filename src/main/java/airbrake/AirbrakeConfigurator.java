@@ -3,6 +3,10 @@ package airbrake;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog.ModalityType;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -10,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -57,6 +62,8 @@ public class AirbrakeConfigurator extends AbstractSwingSimulationExtensionConfig
 
 	@Override
 	protected JComponent getConfigurationComponent(AirbrakeExtension extension, Simulation simulation, JPanel panel) {
+		List<JFormattedTextField> editableFields = new ArrayList<>();
+
 		JCheckBox enabledBox = new JCheckBox(new BooleanModel(extension, "Enabled"));
 		enabledBox.setText("Enabled (uncheck to simulate the same rocket with no airbrake)");
 		panel.add(enabledBox, "span, wrap para");
@@ -66,23 +73,23 @@ public class AirbrakeConfigurator extends AbstractSwingSimulationExtensionConfig
 		panel.add(new JComboBox<>(triggerModel), "wrap");
 
 		panel.add(new JLabel("Deploy delay after trigger:"));
-		addDoubleField(panel, extension, "DeployDelay", UnitGroup.UNITS_SHORT_TIME);
+		addDoubleField(panel, extension, "DeployDelay", UnitGroup.UNITS_SHORT_TIME, editableFields);
 
 		panel.add(new JLabel("Deploy/slew duration (0→100%):"));
-		addDoubleField(panel, extension, "DeployDuration", UnitGroup.UNITS_SHORT_TIME);
+		addDoubleField(panel, extension, "DeployDuration", UnitGroup.UNITS_SHORT_TIME, editableFields);
 
 		panel.add(new JLabel("Exposed area at full deployment:"));
-		addDoubleField(panel, extension, "ExposedAreaM2", UnitGroup.UNITS_AREA);
+		addDoubleField(panel, extension, "ExposedAreaM2", UnitGroup.UNITS_AREA, editableFields);
 
 		panel.add(new JLabel("Drag coefficient of exposed area:"));
-		addDoubleField(panel, extension, "DragCoefficient", UnitGroup.UNITS_NONE);
+		addDoubleField(panel, extension, "DragCoefficient", UnitGroup.UNITS_NONE, editableFields);
 
 		JCheckBox targetControlBox = new JCheckBox(new BooleanModel(extension, "TargetApogeeControlEnabled"));
 		targetControlBox.setText("Closed-loop target-apogee control (instead of a fixed deploy ramp)");
 		panel.add(targetControlBox, "span, wrap");
 
 		panel.add(new JLabel("Target apogee:"));
-		addDoubleField(panel, extension, "TargetApogeeM", UnitGroup.UNITS_DISTANCE);
+		addDoubleField(panel, extension, "TargetApogeeM", UnitGroup.UNITS_DISTANCE, editableFields);
 
 		JButton compareButton = new JButton("Compare with / without airbrake…");
 		compareButton.addActionListener(e -> runComparison(extension, simulation));
@@ -98,13 +105,38 @@ public class AirbrakeConfigurator extends AbstractSwingSimulationExtensionConfig
 		note.setFont(note.getFont().deriveFont(note.getFont().getSize2D() - 1f));
 		panel.add(note, "span, wrap, w 500lp");
 
+		// A typed value only commits to the model on focus-loss (tab/click to another
+		// component). Clicking the dialog's own Close button already triggers that
+		// normally, but closing via the window's OS-level close control bypasses
+		// Swing's focus-transfer chain entirely, so the last-edited field silently
+		// never commits. Force-commit everything on windowClosing, registered here
+		// (before OpenRocket's own listener, which is added later in its configure()
+		// method) so it runs first, ahead of the dialog tearing down its models.
+		JDialog dialog = getDialog();
+		if (dialog != null) {
+			dialog.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					for (JFormattedTextField field : editableFields) {
+						try {
+							field.commitEdit();
+						} catch (ParseException ignored) {
+							// leave whatever the model already has
+						}
+					}
+				}
+			});
+		}
+
 		return panel;
 	}
 
-	private void addDoubleField(JPanel panel, AirbrakeExtension extension, String property, UnitGroup units) {
+	private void addDoubleField(JPanel panel, AirbrakeExtension extension, String property, UnitGroup units,
+			List<JFormattedTextField> editableFields) {
 		DoubleModel model = new DoubleModel(extension, property, units, 0);
 		JSpinner spin = new JSpinner(model.getSpinnerModel());
 		spin.setEditor(new SpinnerEditor(spin));
+		editableFields.add(((JSpinner.DefaultEditor) spin.getEditor()).getTextField());
 		panel.add(spin, "w 65lp!");
 		panel.add(new UnitSelector(model), "w 40, wrap");
 	}
